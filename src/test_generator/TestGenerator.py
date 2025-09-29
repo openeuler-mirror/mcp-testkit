@@ -8,7 +8,7 @@ from ..llm.LLM import LLMClient
 from ..type.types_def import ToolDefinition, TestCase
 from ..prompts.tool_prompt import tool_prompt
 from ..prompts.eval_prompt import eval_prompt
-from ..client.Session import Configuration
+from ..client.Client import Configuration
 from ..client.MCPClient import MCPClient
 from ..utils.read_source_code import ReadSourceCode
 

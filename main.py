@@ -49,6 +49,8 @@ async def gen_cases(config_path):
     from src.test_generator.TestGenerator import TestGenerator
     generator = TestGenerator(config_path=config_path)
     return await generator.run()
+
+
 async def val_cases(config_path, testcase_path):
     from src.validator.Response_validator_withenv import ResponseValidator_withenv
     validator = ResponseValidator_withenv(config_path=config_path, testcase_path=testcase_path)
