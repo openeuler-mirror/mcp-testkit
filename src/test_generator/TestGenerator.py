@@ -3,12 +3,13 @@ import datetime
 import uuid
 import re
 import os
-from typing import List, Dict, Any, Optional, Protocol
+from typing import List
 from ..llm.LLM import LLMClient
 from ..type.types_def import ToolDefinition, TestCase
-from ..prompts.tool_prompt import tool_prompt_0903
+from ..prompts.tool_prompt import tool_prompt
 from ..prompts.eval_prompt import eval_prompt
-from ..client.MCPClient import Configuration, Server
+from ..client.Client import Configuration
+from ..client.MCPClient import MCPClient
 from ..utils.read_source_code import ReadSourceCode
 
 class TestGenerator:
@@ -30,7 +31,7 @@ class TestGenerator:
     async def run(self):
         # load config
 
-        servers = [Server(name, srv_config) for name, srv_config in self.config["mcpServers"].items()]
+        servers = [MCPClient(name, srv_config) for name, srv_config in self.config["mcpServers"].items()]
         tests_per_tool = self.config["numTestsPerTool"]
         for server in servers:
 
@@ -79,11 +80,8 @@ class TestGenerator:
         for tool in tools:
             try:
                 print(f"Generating tests for tool interface: {tool.name}")
-                # import ipdb; ipdb.set_trace()
                 
                 tool_prompt_formatted = self.create_tool_prompt(tool, tests_per_tool, tool_functions[tool.name])
-                # print(prompt)
-
                 
                 response = self.llm.get_response(
                     [{"role": "user", "content": tool_prompt_formatted}]
@@ -132,7 +130,7 @@ class TestGenerator:
         if tool.input_schema and hasattr(tool.input_schema, 'properties'):
             input_properties = json.dumps(input_properties, indent=2)
         
-        formatted_prompt = tool_prompt_0903.format(
+        formatted_prompt = tool_prompt.format(
                                 tool=tool,
                                 input_properties=input_properties,
                                 tests_per_tool=tests_per_tool,
