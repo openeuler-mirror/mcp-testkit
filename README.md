@@ -143,7 +143,7 @@ python main.py gen-cases --config xxx/mcp-config.json
 ### 5. 执行测试用例并验证
 ```bash
 # 执行校验命令
-python main.py val-cases --config xxx/mcp-config.json --testpath ./logs/perf_mcp_2025-09-11T07-31-04-418670
+python main.py val-cases --config xxx/mcp-config.json --testpath ./logs/perf_mcp_2025-09-11T07-31-04-418670/testcases.json
 ```
 - `--testpath`：指定步骤 4 生成的测试用例目录路径；  
 - 执行结果：用例的执行结果将保存至步骤 4 输出的用例目录。
